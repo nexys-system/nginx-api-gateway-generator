@@ -1,6 +1,6 @@
 {
   "name": "@nexys/nginx-api-gateway-generator",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "nginx-api-gateway-generator",
   "main": "./dist/index.js",
   "files": [
