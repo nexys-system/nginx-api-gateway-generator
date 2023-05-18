@@ -1,0 +1,20 @@
+{
+  "name": "@nexys/nginx-api-gateway-generator",
+  "version": "0.0.1",
+  "description": "nginx-api-gateway-generator",
+  "main": "./dist/index.js",
+  "repository": "https://github.com/nexys-system/nginx-api-gateway-generator",
+  "author": "Nexys Sarl",
+  "license": "MIT",
+  "type": "module",
+  "scripts": {
+    "build": "tsc",
+    "test": "NODE_OPTIONS=--experimental-vm-modules jest"
+  },
+  "devDependencies": {
+    "@types/jest": "^29.5.1",
+    "jest": "^29.5.0",
+    "ts-jest": "^29.1.0",
+    "typescript": "^5.0.4"
+  }
+}
