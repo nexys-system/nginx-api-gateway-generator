@@ -3,6 +3,10 @@
   "version": "0.0.2",
   "description": "nginx-api-gateway-generator",
   "main": "./dist/index.js",
+  "files": [
+    "dist/*",
+    "README.md"
+  ],
   "repository": "https://github.com/nexys-system/nginx-api-gateway-generator",
   "author": "Nexys Sarl",
   "license": "MIT",
