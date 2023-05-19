@@ -1,6 +1,8 @@
-interface ProxyPass {url: string, location: string}
+import fs from 'fs';
 
-interface ConfigOptions {port:number, server?:string}
+export interface ProxyPass {url: string, location: string}
+
+export interface ConfigOptions {port:number, server?:string}
 
 export const getNginxConfigTop = ({port, server}:ConfigOptions) => {
     const lines = [
@@ -17,7 +19,7 @@ export const getNginxConfigTop = ({port, server}:ConfigOptions) => {
 
 export const getConfig = (
     proxyPasses:ProxyPass[],
-    {port = 3000, server}:Partial<ConfigOptions> = {}
+    {port , server}:ConfigOptions 
 ):string => {
     const proxyPassesConfig = proxyPasses
     .map(({ url, location }) => {
@@ -55,4 +57,16 @@ export const getDockerfile = (port: number) => {
     ]
 
     return dockerFileLines.join('\n\n');
+}
+
+export const generate = (proxyPasses:ProxyPass[], options:ConfigOptions) => {
+  const nginxFile = getConfig(proxyPasses, options);
+  // display Nginx config
+  console.log('Nginx config', nginxFile);
+  fs.writeFileSync('./nginx.conf', nginxFile, 'utf-8');
+
+  const dockerfile = getDockerfile(options.port)
+  // display Dockerfile
+  console.log('Dockerfile', dockerfile);
+  fs.writeFileSync('./Dockerfile', dockerfile, 'utf-8');
 }

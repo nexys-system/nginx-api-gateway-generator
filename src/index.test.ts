@@ -35,7 +35,7 @@ test('generate dockerfile', () => {
 });
 
 test('getConfig', () => {
-    const configGenerated= L.getConfig([])
+    const configGenerated= L.getConfig([],{port: 3000})
     expect(config).toEqual(configGenerated)
 })
 
