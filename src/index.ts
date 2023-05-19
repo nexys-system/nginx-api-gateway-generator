@@ -7,7 +7,7 @@ export interface ConfigOptions {port:number, server?:string}
 export const getNginxConfigTop = ({port, server}:ConfigOptions) => {
     const lines = [
       `listen ${port};`,
-      server ? `server ${server};` : null,
+      server ? `server_name ${server};` : null,
       'client_max_body_size 10M;',
       'add_header Cache-Control "no-store, no-cache, must-revalidate";'
     ]

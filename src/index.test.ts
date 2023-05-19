@@ -18,7 +18,7 @@ const configTop2 = `
   server {
     listen 3000;
 
-    server app.myapp.com;
+    server_name app.myapp.com;
 
     client_max_body_size 10M;
 
