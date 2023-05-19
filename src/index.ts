@@ -1,18 +1,24 @@
 interface ProxyPass {url: string, location: string}
 
-const getNginxConfigTop = ({port, server}:{port:number, server?:string}) => {
+interface ConfigOptions {port:number, server?:string}
+
+export const getNginxConfigTop = ({port, server}:ConfigOptions) => {
     const lines = [
       `listen ${port};`,
+      server ? `server ${server};` : null,
       'client_max_body_size 10M;',
       'add_header Cache-Control "no-store, no-cache, must-revalidate";'
     ]
 
-    const body = lines.map(x => ' '.repeat(4) + x).join('\n');
+    const body = lines.filter(x => x!== null).map(x => ' '.repeat(4) + x).join('\n\n');
 
     return ['\n  server {', body].join('\n');
 }
 
-export const getConfig = (proxyPasses:ProxyPass[], {port = 3000}:{port:number, server?:string} = {}):string => {
+export const getConfig = (
+    proxyPasses:ProxyPass[],
+    {port = 3000, server}:Partial<ConfigOptions> = {}
+):string => {
     const proxyPassesConfig = proxyPasses
     .map(({ url, location }) => {
         return `
