@@ -1,6 +1,18 @@
 interface ProxyPass {url: string, location: string}
 
-export const getConfig = (proxyPasses:ProxyPass[], port:number = 3000):string => {
+const getNginxConfigTop = ({port, server}:{port:number, server?:string}) => {
+    const lines = [
+      `listen ${port};`,
+      'client_max_body_size 10M;',
+      'add_header Cache-Control "no-store, no-cache, must-revalidate";'
+    ]
+
+    const body = lines.map(x => ' '.repeat(4) + x).join('\n');
+
+    return ['\n  server {', body].join('\n');
+}
+
+export const getConfig = (proxyPasses:ProxyPass[], {port = 3000}:{port:number, server?:string} = {}):string => {
     const proxyPassesConfig = proxyPasses
     .map(({ url, location }) => {
         return `
@@ -19,13 +31,7 @@ export const getConfig = (proxyPasses:ProxyPass[], port:number = 3000):string =>
     })
     .join("\n");
 
-    const ngxinConfigTop = `
-  server {
-    listen ${port};
-
-    client_max_body_size 10M;
-
-    add_header Cache-Control "no-store, no-cache, must-revalidate";`;
+    const ngxinConfigTop = getNginxConfigTop({port, server});
 
     const ngxinConfigBottom = `    error_page 404 =200 /index.html;
 }`;
