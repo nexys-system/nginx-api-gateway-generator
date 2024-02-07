@@ -2,13 +2,21 @@ import fs from 'fs';
 
 export interface ProxyPass {url: string, location: string}
 
-export interface ConfigOptions {port:number, server?:string}
+export interface ConfigOptions {
+    port:number,
+    server?:string,
+    clientMaxBodySize?: string; // Optional parameter for client max body size
+}
 
-export const getNginxConfigTop = ({port, server}:ConfigOptions) => {
+export const getNginxConfigTop = ({
+    port,
+    server,
+    clientMaxBodySize = '10M', // Default value for clientMaxBodySize
+}:ConfigOptions) => {
     const lines = [
       `listen ${port};`,
       server ? `server_name ${server};` : null,
-      'client_max_body_size 10M;',
+      `client_max_body_size ${clientMaxBodySize};`, // Use the parameter
       'add_header Cache-Control "no-store, no-cache, must-revalidate";'
     ]
 
